@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Billing System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2>Billing System</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active" data-page="dashboard">Dashboard</a></li>
+                <li><a href="#" data-page="organizations">Organizations</a></li>
+                <li><a href="#" data-page="branch-types">Branch Types</a></li>
+                <li><a href="#" data-page="branches">Branches</a></li>
+                <li><a href="#" data-page="products">Products</a></li>
+                <li><a href="#" data-page="invoices">Invoices</a></li>
+                <li><a href="#" id="logout">Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content">
+            <div id="dashboard-page" class="page active">
+                <h1>Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Branches</h3>
+                        <p class="stat-value" id="statBranches">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Products</h3>
+                        <p class="stat-value" id="statProducts">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Invoices</h3>
+                        <p class="stat-value" id="statInvoices">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Sales</h3>
+                        <p class="stat-value" id="statSales">$0.00</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <h2>Sales by Branch</h2>
+                    <div id="salesByBranch" class="chart-container"></div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <h2>Recent Invoices</h2>
+                    <div class="table-container">
+                        <table id="recentInvoicesTable">
+                            <thead>
+                                <tr>
+                                    <th>Invoice #</th>
+                                    <th>Branch</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="organizations-page" class="page">
+                <div class="page-header">
+                    <h1>Organizations</h1>
+                    <button class="btn btn-primary" id="addOrgBtn">Add Organization</button>
+                </div>
+                <div class="table-container">
+                    <table id="organizationsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="branch-types-page" class="page">
+                <div class="page-header">
+                    <h1>Branch Types</h1>
+                    <button class="btn btn-primary" id="addBranchTypeBtn">Add Branch Type</button>
+                </div>
+                <div class="filters">
+                    <select id="branchTypeOrgFilter" class="form-control">
+                        <option value="">Select Organization</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="branchTypesTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Organization</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="branches-page" class="page">
+                <div class="page-header">
+                    <h1>Branches</h1>
+                    <button class="btn btn-primary" id="addBranchBtn">Add Branch</button>
+                </div>
+                <div class="filters">
+                    <select id="orgFilter" class="form-control">
+                        <option value="">All Organizations</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="branchesTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Organization</th>
+                                <th>Type</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="products-page" class="page">
+                <div class="page-header">
+                    <h1>Products</h1>
+                    <button class="btn btn-primary" id="addProductBtn">Add Product</button>
+                </div>
+                <div class="filters">
+                    <select id="branchFilter" class="form-control">
+                        <option value="">Select Branch</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="productsTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Tax Rate</th>
+                                <th>Stock</th>
+                                <th>Unit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="invoices-page" class="page">
+                <div class="page-header">
+                    <h1>Invoices</h1>
+                    <button class="btn btn-primary" id="createInvoiceBtn">Create Invoice</button>
+                </div>
+                <div class="filters">
+                    <select id="invoiceBranchFilter" class="form-control">
+                        <option value="">Select Branch</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table id="invoicesTable">
+                        <thead>
+                            <tr>
+                                <th>Invoice #</th>
+                                <th>Branch</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <div id="orgModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="orgModalTitle">Add Organization</h2>
+            <form id="orgForm">
+                <input type="hidden" id="orgId">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="orgName" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="orgAddress"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" id="orgPhone">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="orgEmail">
+                </div>
+                <div class="form-group">
+                    <label>Tax ID</label>
+                    <input type="text" id="orgTaxId">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="branchModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="branchModalTitle">Add Branch</h2>
+            <form id="branchForm">
+                <input type="hidden" id="branchId">
+                <div class="form-group">
+                    <label>Organization *</label>
+                    <select id="branchOrgId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Branch Type</label>
+                    <select id="branchTypeId"></select>
+                </div>
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="branchName" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="branchAddress"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" id="branchPhone">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="branchEmail">
+                </div>
+                <div class="form-group">
+                    <label>Bill Color</label>
+                    <input type="color" id="branchBillColor" value="#000000">
+                </div>
+                <div class="form-group">
+                    <label>Bill Font</label>
+                    <select id="branchBillFont">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Georgia">Georgia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Bill Icon URL</label>
+                    <input type="text" id="branchBillIcon" placeholder="https://example.com/icon.png">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="productModalTitle">Add Product</h2>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Branch *</label>
+                    <select id="productBranchId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Price *</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Tax Rate (%)</label>
+                    <input type="number" id="productTaxRate" step="0.01" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="productStock" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Unit</label>
+                    <input type="text" id="productUnit" value="pcs">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close">&times;</span>
+            <h2>Create Invoice</h2>
+            <form id="invoiceForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Branch *</label>
+                        <select id="invoiceBranchId" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Invoice Number *</label>
+                        <input type="text" id="invoiceNumber" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Name *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Email</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Phone</label>
+                        <input type="text" id="customerPhone">
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Address</label>
+                        <textarea id="customerAddress"></textarea>
+                    </div>
+                </div>
+                
+                <h3>Items</h3>
+                <div id="invoiceItems">
+                    <div class="invoice-item">
+                        <select class="item-product" required>
+                            <option value="">Select Product</option>
+                        </select>
+                        <input type="number" class="item-quantity" placeholder="Qty" min="1" value="1" required>
+                        <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" id="addItemBtn">Add Item</button>
+                
+                <div class="form-group">
+                    <label>Discount</label>
+                    <input type="number" id="invoiceDiscount" step="0.01" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="invoiceNotes"></textarea>
+                </div>
+                
+                <div class="invoice-summary">
+                    <p>Subtotal: <span id="invoiceSubtotal">$0.00</span></p>
+                    <p>Tax: <span id="invoiceTax">$0.00</span></p>
+                    <p>Discount: <span id="invoiceDiscountDisplay">$0.00</span></p>
+                    <p><strong>Total: <span id="invoiceTotal">$0.00</span></strong></p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create Invoice</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="invoiceViewModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close">&times;</span>
+            <div id="invoicePreview"></div>
+            <button class="btn btn-primary" id="printInvoiceBtn">Print</button>
+        </div>
+    </div>
+    
+    <div id="branchTypeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="branchTypeModalTitle">Add Branch Type</h2>
+            <form id="branchTypeForm">
+                <input type="hidden" id="branchTypeId">
+                <div class="form-group">
+                    <label>Organization *</label>
+                    <select id="branchTypeOrgId" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="branchTypeName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="branchTypeDescription"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
